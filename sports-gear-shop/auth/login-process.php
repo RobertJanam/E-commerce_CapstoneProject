@@ -17,10 +17,12 @@ if (isset($_POST['login'])) {
     if (mysqli_num_rows($result) === 1) {
         $user = mysqli_fetch_assoc($result);
 
+        // Match verified cryptographically hashed values
         if (password_verify($password, $user['password'])) {
             $_SESSION['user_id'] = $user['id'];
             $_SESSION['user_name'] = $user['fullname'];
 
+            // Route seamlessly to production system dashboard route
             header("Location: ../index.php");
             exit();
         } else {
