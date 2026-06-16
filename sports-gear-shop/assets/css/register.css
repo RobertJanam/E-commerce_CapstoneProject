@@ -1,5 +1,5 @@
 body {
-    background-color: #FFF8F8;
+    background-color: #161211;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     display: flex;
     justify-content: center;
@@ -8,15 +8,15 @@ body {
     margin: 0;
 }
 .register-card {
-    background: #FFFFFF;
+    background: rgba(13, 15, 18, 0.95);
     width: 380px;
     padding: 35px;
     border-radius: 12px;
     box-shadow: 0 8px 24 rgba(0, 0, 0, 0.08);
-    border-top: 5px solid #147971;
+    /*border-top: 5px solid #147971; */
 }
 h2 {
-    color: #000000;
+    color: #ffffff;
     text-align: center;
     margin-bottom: 25px;
     font-weight: 700;
@@ -27,20 +27,22 @@ h2 {
 input {
     width: 100%;
     padding: 12px;
-    border: 2px solid #147971;
+    border: 2px solid #960b37;
     border-radius: 6px;
     box-sizing: border-box;
     font-size: 15px;
     outline: none;
+    background-color: #21252D;
+    color: #ffffff;
 }
 input:focus {
-    border-color: #00FFFF;
-    box-shadow: 0 0 5px rgba(0, 255, 255, 0.5);
+    border-color: #F01158;
+    box-shadow: 0 0 5px rgb(185, 1, 68);
 }
 button {
     width: 100%;
     padding: 12px;
-    background-color: #147971;
+    background-color: #F01158;
     color: #FFFFFF;
     border: none;
     border-radius: 6px;
@@ -49,7 +51,7 @@ button {
     cursor: pointer;
 }
 button:hover {
-    background-color: #0d544f;
+    background-color: #7c092d;
 }
 .error-alert {
     background-color: #FFCDD2;
@@ -67,10 +69,11 @@ button:hover {
     color: #000000;
 }
 .switch-link a {
-    color: #147971;
+    color: #7c092d;
     text-decoration: none;
     font-weight: bold;
 }
 .switch-link a:hover {
-    color: #00FFFF;
+    color: #F01158;
+    box-shadow: 0 0 5px rgb(185, 1, 68);
 }
