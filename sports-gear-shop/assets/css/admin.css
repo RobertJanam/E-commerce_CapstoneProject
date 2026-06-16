@@ -1,0 +1,432 @@
+/* ==========================================================================
+   Custom Variable Framework (Premium Athletic Theme)
+   ========================================================================== */
+:root {
+    --obsidian-black: #0B0C10;
+    --card-bg: #1F2833;
+    --crisp-white: #FFFFFF;
+    --neon-crimson: #FF0055;
+    --neon-cyan: #ff0077;
+    --gold-accent: #FFD700;
+    --muted-grey: #C5C6C7;
+    --sidebar-bg: #11161D;
+    --input-border: rgba(255, 255, 255, 0.1);
+}
+
+/* ==========================================================================
+   Base Body Resets & Typography
+   ========================================================================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Montserrat', sans-serif;
+}
+
+body {
+    background-color: var(--obsidian-black);
+    color: var(--crisp-white);
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Custom Scrollbar for Main Content Content */
+::-webkit-scrollbar {
+    width: 8px;
+}
+::-webkit-scrollbar-track {
+    background: var(--obsidian-black);
+}
+::-webkit-scrollbar-thumb {
+    background: var(--card-bg);
+    border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: var(--neon-crimson);
+}
+
+/* ==========================================================================
+   Authentication Layout (Login & Registration Panels)
+   ========================================================================== */
+.admin-auth-body {
+    background-color: var(--obsidian-black);
+    color: var(--crisp-white);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.auth-container {
+    width: 100%;
+    max-width: 450px;
+}
+
+.auth-card {
+    background-color: var(--card-bg);
+    border-radius: 8px;
+    padding: 40px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
+    border: 1px solid rgba(255, 0, 53, 0.15);
+}
+
+.brand-logo {
+    font-weight: 900;
+    font-size: 1.8rem;
+    letter-spacing: 2px;
+    text-align: center;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+}
+
+.brand-logo span,
+.sidebar-brand span {
+    color: var(--neon-crimson);
+}
+
+.auth-card h2 {
+    text-align: center;
+    font-size: 1.4rem;
+    margin-bottom: 5px;
+    font-weight: 700;
+}
+
+.subtitle {
+    text-align: center;
+    color: var(--muted-grey);
+    font-size: 0.85rem;
+    margin-bottom: 30px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+    color: var(--muted-grey);
+    font-weight: 700;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px 16px;
+    background-color: var(--obsidian-black);
+    border: 1px solid var(--input-border);
+    color: var(--crisp-white);
+    border-radius: 4px;
+    font-size: 0.95rem;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: var(--neon-crimson);
+    box-shadow: 0 0 8px rgba(255, 0, 85, 0.2);
+}
+
+.btn-primary {
+    width: 100%;
+    padding: 14px;
+    background-color: var(--neon-crimson);
+    color: var(--crisp-white);
+    border: none;
+    border-radius: 4px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.1s ease;
+}
+
+.btn-primary:hover {
+    background-color: #D00045;
+}
+
+.btn-primary:active {
+    transform: scale(0.98);
+}
+
+/* ==========================================================================
+   Admin Grid Dashboard Architecture
+   ========================================================================== */
+.admin-dashboard-layout {
+    display: flex;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* Sidebar Component */
+.sidebar {
+    width: 280px;
+    background-color: var(--sidebar-bg);
+    display: flex;
+    flex-direction: column;
+    padding: 30px 20px;
+    border-right: 1px solid rgba(255, 255, 255, 0.05);
+    flex-shrink: 0;
+}
+
+.sidebar-brand {
+    font-weight: 900;
+    font-size: 1.6rem;
+    letter-spacing: 1.5px;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+}
+
+.sidebar-menu {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex-grow: 1;
+}
+
+/* Sidebar Links & Shared Interactive Buttons */
+.sidebar-menu a,
+.dropdown-btn {
+    color: var(--muted-grey);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 600;
+    padding: 12px 15px;
+    border-radius: 4px;
+    background: transparent;
+    border: none;
+    width: 100%;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    font-family: 'Montserrat', sans-serif;
+    transition: all 0.2s ease;
+}
+
+.sidebar-menu a:hover,
+.dropdown-btn:hover {
+    background-color: rgba(255, 255, 255, 0.03);
+    color: var(--crisp-white);
+}
+
+.sidebar-menu a.active {
+    background-color: var(--card-bg);
+    color: var(--crisp-white);
+    border-left: 4px solid var(--neon-crimson);
+    font-weight: 700;
+}
+
+/* Collapsible Sub-Navigation Engine */
+.sidebar-dropdown {
+    display: flex;
+    flex-direction: column;
+}
+
+.dropdown-container {
+    display: none; /* Controlled dynamically via JavaScript classes */
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+    margin-top: 4px;
+    padding-left: 15px;
+}
+
+.dropdown-container a {
+    font-size: 0.85rem;
+    padding: 10px 15px;
+    color: var(--muted-grey);
+}
+
+.dropdown-container a:hover {
+    color: var(--neon-cyan);
+    background: transparent;
+}
+
+.dropdown-container a.disabled-link {
+    opacity: 0.35;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.arrow-indicator {
+    font-size: 0.7rem;
+    transition: transform 0.3s ease;
+    color: var(--muted-grey);
+}
+
+/* Sidebar Footer Integration Layout */
+.sidebar-footer {
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    padding-top: 20px;
+    margin-top: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.btn-logout {
+    color: var(--neon-crimson) !important;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 8px 5px;
+    transition: opacity 0.2s ease;
+}
+
+.btn-logout:hover {
+    opacity: 0.8;
+}
+
+.user-profile {
+    font-size: 0.75rem;
+    color: var(--muted-grey);
+    line-height: 1.4;
+}
+
+.user-profile strong {
+    color: var(--crisp-white);
+    display: block;
+    font-size: 0.85rem;
+    margin-top: 2px;
+}
+
+/* ==========================================================================
+   Main Canvas & Workspace Blocks
+   ========================================================================== */
+.main-content {
+    flex: 1 1 auto;
+    min-width: 0;
+    padding: 40px;
+    overflow: visible;
+    background-color: var(--obsidian-black);
+}
+
+.content-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 35px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    padding-bottom: 20px;
+}
+
+.content-header h1 {
+    font-size: 1.8rem;
+    font-weight: 900;
+    letter-spacing: -0.5px;
+}
+
+/* Analytics Metric Grid Layout */
+.analytics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 20px;
+    margin-bottom: 40px;
+}
+
+.metric-card {
+    background-color: var(--card-bg);
+    padding: 25px;
+    border-radius: 6px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.02);
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.25s ease;
+}
+
+.metric-card h3 {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    color: var(--muted-grey);
+    letter-spacing: 1px;
+    margin-bottom: 15px;
+    font-weight: 700;
+}
+
+.metric-value {
+    font-size: 2.2rem;
+    font-weight: 900;
+    margin-bottom: 8px;
+    letter-spacing: -1px;
+}
+
+.metric-meta {
+    font-size: 0.8rem;
+    color: #7A828A;
+    margin-top: auto;
+}
+
+/* Custom Interactive Metric Card Micro-Glow Actions */
+.clickable-card {
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+}
+
+.cyan-glow { border-top: 4px solid var(--neon-cyan); }
+.cyan-glow:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 240, 255, 0.15);
+}
+
+.gold-glow { border-top: 4px solid var(--gold-accent); }
+.gold-glow:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(255, 215, 0, 0.12);
+}
+
+.white-glow { border-top: 4px solid var(--crisp-white); }
+.white-glow:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(255, 255, 255, 0.1);
+}
+
+.crimson-glow { border-top: 4px solid var(--neon-crimson); }
+.crimson-glow:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(255, 0, 85, 0.15);
+}
+
+/* Critical Stock Alert Pulsing System */
+.alert-triggered .metric-value {
+    color: var(--neon-crimson);
+    animation: pulse 2s infinite ease-in-out;
+}
+
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1; }
+}
+
+/* Data Content Panels */
+.data-card {
+    background-color: var(--card-bg);
+    padding: 30px;
+    border-radius: 6px;
+    border: 1px solid rgba(255, 255, 255, 0.02);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.data-card h2 {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.placeholder-text {
+    color: var(--muted-grey);
+    margin-top: 15px;
+    font-style: italic;
+    font-size: 0.9rem;
+    line-height: 1.6;
+}
