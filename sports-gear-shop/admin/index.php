@@ -36,45 +36,96 @@ if (isset($conn)) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>APEX SPRINT Admin Panel</title>
     <link rel="stylesheet" href="../assets/css/admin.css">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
-<body class="admin-dashboard-layout">
+<body>
 
+<div class="app-container">
     <aside class="sidebar">
-        <div class="sidebar-brand">APEX<span>SPRINT</span></div>
-        <nav class="sidebar-menu">
-            <a href="index.php" class="active">Dashboard Overview</a>
-
-            <div class="sidebar-dropdown">
-                <button class="dropdown-btn" id="myShopToggle">
-                    My Shop <span class="arrow-indicator">▼</span>
-                </button>
-                <div class="dropdown-container" id="myShopDropdown">
-                    <a href="products.php">Products</a>
-                    <a href="#" class="disabled-link">Orders</a>
-                    <a href="#" class="disabled-link">Customers</a>
-                </div>
+        <div class="sidebar-top">
+            <div class="sidebar-header">
+                <div class="logo">APEX<span class="logo-accent">SPRINT</span></div>
             </div>
 
-            <a href="../index.php" target="_blank">View Live Storefront</a>
-        </nav>
+            <ul class="sidebar-menu">
+                <li>
+                    <a href="index.php" class="menu-item active">
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+
+                <li class="dropdown-level-1">
+                    <button class="dropdown-btn" onclick="toggleMenu('inventoryDropdown', this)">
+                        <span>Manage Inventory</span>
+                        <span class="arrow-indicator">▼</span>
+                    </button>
+
+                    <ul id="inventoryDropdown" class="submenu level-1-menu">
+
+                        <li class="dropdown-level-2">
+                            <button class="dropdown-sub-btn" onclick="toggleMenu('productsDropdown', this)">
+                                <span>Manage Products</span>
+                                <span class="arrow-indicator">▼</span>
+                            </button>
+                            <ul id="productsDropdown" class="submenu level-2-menu">
+                                <li><a href="products.php"> Add Product</a></li>
+                                <li><a href="manage-product/view-product.php">View Products</a></li>
+                                <li><a href="manage-product/update-product.php">Update Product</a></li>
+                                <li><a href="manage-product/remove-product.php">Remove Product</a></li>
+                            </ul>
+                        </li>
+
+                        <li class="dropdown-level-2">
+                            <button class="dropdown-sub-btn" onclick="toggleMenu('categoriesDropdown', this)">
+                                <span>Manage Categories</span>
+                                <span class="arrow-indicator">▼</span>
+                            </button>
+                            <ul id="categoriesDropdown" class="submenu level-2-menu">
+                                <li><a href="manage-category/add-category.php">Add Category</a></li>
+                                <li><a href="manage-category/view-category.php">View Categories</a></li>
+                                <li><a href="manage-category/update-category.php">Update Category</a></li>
+                                <li><a href="manage-category/remove-category.php">Remove Category</a></li>
+                            </ul>
+                        </li>
+
+                        <li class="dropdown-level-2">
+                            <button class="dropdown-sub-btn" onclick="toggleMenu('accessDropdown', this)">
+                                <span>Management Access</span>
+                                <span class="arrow-indicator">▼</span>
+                            </button>
+                            <ul id="accessDropdown" class="submenu level-2-menu">
+                                <li><a href="manage-access/add-access.php">Add Access</a></li>
+                                <li><a href="manage-access/view-access.php">View Access Logs</a></li>
+                                <li><a href="manage-access/update-access.php">Edit Permissions</a></li>
+                                <li><a href="manage-access/remove-access.php">Revoke Access</a></li>
+                            </ul>
+                        </li>
+
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
         <div class="sidebar-footer">
-            <a href="../auth/logout.php" class="btn-logout">System Logout</a>
-            <div class="user-profile">Authorized Session: <strong><?php echo $displayName; ?></strong></div>
+            <div class="user-profile">
+                <span class="user-name"><?php echo $displayName; ?></span>
+                <a href="../auth/logout.php" class="logout-btn">Logout</a>
+            </div>
         </div>
     </aside>
 
     <main class="main-content">
-        <header class="content-header">
+        <header class="main-header">
             <h1>Dashboard Overview</h1>
+            <p class="welcome-meta">Real-time status updates and execution matrices.</p>
         </header>
 
-        <section class="analytics-grid">
-            <a href="#" class="metric-card cyan-glow clickable-card">
+        <section class="metrics-grid">
+            <div class="metric-card crimson-glow">
                 <h3>Active Orders</h3>
                 <div class="metric-value">12</div>
                 <p class="metric-meta">Awaiting fulfillment processing</p>
-            </a>
+            </div>
 
             <div class="metric-card gold-glow">
                 <h3>Total Revenue</h3>
@@ -82,11 +133,11 @@ if (isset($conn)) {
                 <p class="metric-meta">Gross checkout value this cycle</p>
             </div>
 
-            <a href="products.php" class="metric-card white-glow clickable-card">
+            <div class="metric-card white-glow">
                 <h3>Products Listed</h3>
                 <div class="metric-value"><?php echo $totalProducts; ?></div>
                 <p class="metric-meta">Active gears inside database store</p>
-            </a>
+            </div>
 
             <div class="metric-card crimson-glow alert-triggered">
                 <h3>Stock Alerts</h3>
@@ -102,18 +153,18 @@ if (isset($conn)) {
             </div>
         </section>
     </main>
-    <script>
-        document.getElementById('myShopToggle').addEventListener('click', function() {
-            const dropdown = document.getElementById('myShopDropdown');
-            const arrow = this.querySelector('.arrow-indicator');
-            if (dropdown.style.display === 'block') {
-                dropdown.style.display = 'none';
-                arrow.textContent = '▼';
-            } else {
-                dropdown.style.display = 'block';
-                arrow.textContent = '▲';
-            }
-        });
-    </script>
+</div>
+
+<script>
+    function toggleMenu(menuId, buttonElement) {
+        const submenu = document.getElementById(menuId);
+        if (submenu) {
+            submenu.classList.toggle('open');
+        }
+        if (buttonElement) {
+            buttonElement.classList.toggle('active');
+        }
+    }
+</script>
 </body>
 </html>

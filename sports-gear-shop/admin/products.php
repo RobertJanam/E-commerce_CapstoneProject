@@ -2,27 +2,45 @@
 session_start();
 require_once __DIR__ . '/../config/db.php';
 
+// Authorization check & fallback sequence
+$displayName = 'Admin Staff';
+if (isset($_SESSION['user_name']) && !empty($_SESSION['user_name'])) {
+    $displayName = htmlspecialchars($_SESSION['user_name'], ENT_QUOTES, 'UTF-8');
+}
+
 $message = "";
 $messageType = ""; // success or error
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_product'])) {
     $productName = mysqli_real_escape_string($conn, $_POST['product_name']);
     $productDesc = mysqli_real_escape_string($conn, $_POST['product_description']);
-    $category = mysqli_real_escape_string($conn, $_POST['category']);
+    $categoryId = (int)$_POST['category'];
     $price = mysqli_real_escape_string($conn, $_POST['price']);
+
+    $categoryResult = mysqli_query($conn, "SELECT name FROM categories WHERE id = $categoryId");
+    $categoryName = 'uncategorized';
+    if ($categoryResult && mysqli_num_rows($categoryResult) > 0) {
+        $categoryRow = mysqli_fetch_assoc($categoryResult);
+        $categoryName = trim($categoryRow['name']);
+    }
+
+    $categoryFolder = strtolower(preg_replace('/[^a-z0-9]+/', '_', $categoryName));
+    if ($categoryFolder === '') {
+        $categoryFolder = 'uncategorized';
+    }
+
+    $baseCategoryDir = '../uploads/' . $categoryFolder . '/';
+    $baseUploadDir = $baseCategoryDir;
+
+    // Ensure the category folder exists before saving any image
+    if (!is_dir($baseCategoryDir)) {
+        $baseUploadDir = '../uploads/';
+    }
 
     // Relational fail-safe configuration boundary variables
     $uploadedPaths = [null, null, null];
     $uploadSuccess = true;
     $errorMessage = "";
-
-    // Target abstraction folders
-    $baseUploadDir = '../uploads/products/';
-
-    // Explicit runtime directory checks
-    if (!file_exists($baseUploadDir)) {
-        mkdir($baseUploadDir, 0777, true);
-    }
 
     // Capture and validate file payload elements
     if (isset($_FILES['product_images']) && !empty($_FILES['product_images']['name'][0])) {
@@ -34,175 +52,167 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_product'])) {
             $errorMessage = "Security Limit Exception: Max 3 layout imagery files authorized.";
         } else {
             for ($i = 0; $i < $totalFiles; $i++) {
-                if ($files['error'][$i] !== UPLOAD_ERR_OK) {
-                    continue;
-                }
+                if ($files['error'][$i] === 0) {
+                    $fileName = time() . '_' . basename($files['name'][$i]);
+                    $targetFilePath = $baseUploadDir . $fileName;
+                    $fileType = pathinfo($targetFilePath, PATHINFO_EXTENSION);
 
-                $fileName = $files['name'][$i];
-                $fileTmp = $files['tmp_name'][$i];
-                $fileType = $files['type'][$i];
-
-                // Content-Type Guardrail: Block non-image media vectors
-                if (strpos($fileType, 'video') !== false) {
-                    $uploadSuccess = false;
-                    $errorMessage = "Validation Error: Video extensions are completely blacklisted.";
-                    break;
-                }
-
-                $ext = pathinfo($fileName, PATHINFO_EXTENSION);
-                $allowedExts = ['jpg', 'jpeg', 'png', 'webp', 'gif'];
-                if (!in_array(strtolower($ext), $allowedExts)) {
-                    $uploadSuccess = false;
-                    $errorMessage = "Format Error: Unauthorized file extension structure detected.";
-                    break;
-                }
-
-                // Establish ordered unique naming matrix tracking
-                $uniqueIndexName = "image" . ($i + 1) . "_" . time() . "_" . uniqid() . "." . $ext;
-                $targetFilePath = $baseUploadDir . $uniqueIndexName;
-
-                if (move_uploaded_file($fileTmp, $targetFilePath)) {
-                    // Abstraction of relative base paths to preserve structural integrity upon server migration
-                    $uploadedPaths[$i] = "uploads/products/" . $uniqueIndexName;
-                } else {
-                    $uploadSuccess = false;
-                    $errorMessage = "File System Exception: Internal disk permission write failure.";
-                    break;
+                    $allowTypes = array('jpg', 'png', 'jpeg', 'gif', 'webp');
+                    if (in_array(strtolower($fileType), $allowTypes)) {
+                        if (move_uploaded_file($files['tmp_name'][$i], $targetFilePath)) {
+                            $uploadedPaths[$i] = 'uploads/' . $categoryFolder . '/' . $fileName;
+                        } else {
+                            $uploadSuccess = false;
+                            $errorMessage = "Error uploading file: " . $files['name'][$i];
+                            break;
+                        }
+                    } else {
+                        $uploadSuccess = false;
+                        $errorMessage = "Invalid file format for: " . $files['name'][$i];
+                        break;
+                    }
                 }
             }
         }
     }
 
-    // Transactional validation checkpoint execution
-    if ($uploadSuccess && empty($errorMessage)) {
-        $insertQuery = "INSERT INTO products (name, description, category, price, image1, image2, image3)
-                        VALUES ('$productName', '$productDesc', '$category', '$price',
-                                " . ($uploadedPaths[0] ? "'$uploadedPaths[0]'" : "NULL") . ",
-                                " . ($uploadedPaths[1] ? "'$uploadedPaths[1]'" : "NULL") . ",
-                                " . ($uploadedPaths[2] ? "'$uploadedPaths[2]'" : "NULL") . ")";
+    if ($uploadSuccess) {
+        $img1 = $uploadedPaths[0];
+        $img2 = $uploadedPaths[1];
+        $img3 = $uploadedPaths[2];
+
+        // Structural insertion command matching target schema
+        $insertQuery = "INSERT INTO products (name, description, category_id, price, image1, image2, image3)
+                        VALUES ('$productName', '$productDesc', $categoryId, '$price', '$img1', '$img2', '$img3')";
 
         if (mysqli_query($conn, $insertQuery)) {
-            $message = "Product Successfully Added.";
+            $message = "Product successfully injected into active repository store.";
             $messageType = "success";
         } else {
-            // Rollback strategy: Clean physical artifacts to prevent orphan files if query execution breaks
-            foreach ($uploadedPaths as $path) {
-                if ($path && file_exists("../" . $path)) {
-                    unlink("../" . $path);
-                }
-            }
-            $message = "Database System Fault: Row transaction aborted. File system changes reverted. " . mysqli_error($conn);
+            $message = "Database Error: " . mysqli_error($conn);
             $messageType = "error";
         }
     } else {
-        // Rollback Strategy: Clean physical artifacts from disk if formatting rules fail
-        foreach ($uploadedPaths as $path) {
-            if ($path && file_exists("../" . $path)) {
-                unlink("../" . $path);
-            }
-        }
-        $message = "Validation Engine Warning: " . $errorMessage;
+        $message = $errorMessage;
         $messageType = "error";
     }
 }
-
-function mysqli_real_escape_with_lk($link, $data) {
-    return mysqli_real_escape_string($link, trim($data));
-}
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add New Product</title>
+    <title>APEX SPRINT - Add New Product</title>
     <link rel="stylesheet" href="../assets/css/admin.css">
     <link rel="stylesheet" href="../assets/css/add-product.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;900&display=swap" rel="stylesheet">
-
 </head>
-<body class="admin-dashboard-layout">
+<body>
 
     <?php if (!empty($message)): ?>
-        <div class="flash-popup-notification flash-<?php echo $messageType; ?>" id="flashNotification">
-            <?php echo $message; ?>
+        <div id="flashNotification" class="flash-banner-overlay <?php echo $messageType; ?>">
+            <div class="flash-content">
+                <span><?php echo htmlspecialchars($message); ?></span>
+            </div>
         </div>
     <?php endif; ?>
 
-    <aside class="sidebar">
-        <div class="sidebar-brand">APEX<span>SPRINT</span></div>
-        <nav class="sidebar-menu">
-            <a href="index.php">Dashboard Overview</a>
+    <div class="app-container">
 
-            <div class="sidebar-dropdown">
-                <button class="dropdown-btn" style="color:var(--neon-cyan)">
-                    My Shop <span>▲</span>
-                </button>
-                <div class="dropdown-container">
-                    <a href="products.php" class="active-sub">Products</a>
-                    <a href="#" class="disabled-link">Orders (🔒)</a>
-                    <a href="#" class="disabled-link">Customers (🔒)</a>
+        <aside class="sidebar">
+            <div class="sidebar-top">
+                <div class="brand-logo">
+                    APEX SPRINT <span class="dot-accent">.</span>
                 </div>
+                <nav class="sidebar-menu">
+                    <a href="index.php" class="menu-link">Dashboard</a>
+
+                    <div class="sidebar-dropdown">
+                        <button type="button" class="dropdown-btn" id="myShopToggle">
+                            <span>My Shop</span>
+                            <span class="arrow-indicator">▲</span>
+                        </button>
+                        <div class="dropdown-container" id="myShopDropdown" style="display: block;">
+                            <a href="products.php" class="active-sub">Products</a>
+                            <a href="#">Orders</a>
+                            <a href="#">Customers</a>
+                        </div>
+                    </div>
+                </nav>
             </div>
 
-            <a href="../index.php" target="_blank">View Live Storefront</a>
-        </nav>
-        <div class="sidebar-footer">
-            <a href="../auth/logout.php" class="btn-logout">System Logout</a>
-        </div>
-    </aside>
-
-    <main class="main-content">
-        <div class="product-page-container">
-
-            <div class="header-navigation-wrapper">
-                <a href="index.php" class="back-dash-btn">←</a>
-                <div class="meta-nav-context">
-                    <p>Back to Dashboard</p>
-                    <h2>ADD NEW PRODUCT</h2>
+            <div class="sidebar-footer">
+                <div class="user-profile">
+                    <p class="profile-name"><?php echo $displayName; ?></p>
+                    <p class="profile-role">Administrator</p>
                 </div>
             </div>
+        </aside>
 
-            <form action="products.php" method="POST" enctype="multipart/form-data" id="productIngestionForm">
-                <div class="product-editor-grid">
+        <main class="main-content">
 
-                    <div class="editor-left-column">
+            <div class="back-navigation-row">
+                <a href="index.php" class="btn-back-dashboard">
+                    <span class="arrow-icon">&larr;</span> back to dashboard
+                </a>
+            </div>
+
+            <h1 class="main-page-title">Add New Sports Gear</h1>
+
+            <form action="products.php" method="POST" enctype="multipart/form-data" class="product-entry-form">
+                <div class="form-flex-layout">
+
+                    <div class="form-column-left">
                         <div class="form-section-box">
-                            <h3>Description</h3>
+                            <h3>Product Identity</h3>
                             <div class="input-group-block">
-                                <label>Product Name</label>
-                                <input type="text" name="product_name" placeholder="e.g. Phantom Elite FG Boots" required>
-                            </div>
-                            <div class="input-group-block">
-                                <label>Product Description</label>
-                                <textarea name="product_description" rows="6" placeholder="Describe tracking parameters, dynamic fits, or built configurations..." required></textarea>
+                                <label>Product/Gear Name</label>
+                                <input type="text" name="product_name" placeholder="e.g., Phantom Elite FG Boots" required>
                             </div>
                         </div>
 
                         <div class="form-section-box">
-                            <h3>Category</h3>
+                            <h3>Product Description</h3>
                             <div class="input-group-block">
-                                <label>Select Inventory Classification Group</label>
-                                <select name="category" required>
-                                    <option value="" disabled selected>Choose a category...</option>
-                                    <option value="Footwear">Footwear</option>
-                                    <option value="Apparel">Apparel</option>
-                                    <option value="Equipment">Equipment</option>
-                                </select>
+                                <label>Detailed Specifications & Performance Features</label>
+                                <textarea name="product_description" rows="10" placeholder="Describe materials, sizing fit matrix, structural enhancements..." required></textarea>
                             </div>
                         </div>
                     </div>
 
-                    <div class="editor-right-column">
+                    <div class="form-column-right">
+
                         <div class="form-section-box">
                             <h3>Product Images</h3>
-                            <div class="image-uploader-flex-container">
-                                <div class="upload-trigger-square" onclick="triggerFileInput()">
-                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
-                                    <span>Upload Photo</span>
+                            <div class="input-group-block">
+                                <label>Layout Imagery Assets (Max 3 files)</label>
+                                <div class="file-upload-trigger-wrap">
+                                    <button type="button" class="btn-upload-trigger" onclick="triggerFileInput()">Add Image</button>
                                     <input type="file" id="hiddenFileInput" name="product_images[]" multiple accept="image/*" style="display:none;" onchange="handleFileSelection(event)">
                                 </div>
                                 <div class="preview-canvas-queue" id="previewContainer"></div>
+                            </div>
+                        </div>
+
+                        <div class="form-section-box">
+                            <h3>Relational Assignment</h3>
+                            <div class="input-group-block">
+                                <label>System Categorization Placement Track</label>
+                                <select name="category" required class="form-select-dropdown">
+                                    <option value="">-- Choose Target Active DB Category --</option>
+                                    <?php
+                                    $catOptions = mysqli_query($conn, "SELECT id, name FROM categories ORDER BY name ASC");
+                                    if ($catOptions && mysqli_num_rows($catOptions) > 0):
+                                        while($opt = mysqli_fetch_assoc($catOptions)):
+                                    ?>
+                                        <option value="<?php echo $opt['id']; ?>"><?php echo htmlspecialchars($opt['name'], ENT_QUOTES, 'UTF-8'); ?></option>
+                                    <?php
+                                        endwhile;
+                                    endif;
+                                    ?>
+                                </select>
                             </div>
                         </div>
 
@@ -226,9 +236,22 @@ function mysqli_real_escape_with_lk($link, $data) {
                 </div>
             </form>
 
-        </div>
-    </main>
+        </main>
+    </div>
 
+    <script>
+        document.getElementById('myShopToggle').addEventListener('click', function() {
+            const dropdown = document.getElementById('myShopDropdown');
+            const arrow = this.querySelector('.arrow-indicator');
+            if (dropdown.style.display === 'block') {
+                dropdown.style.display = 'none';
+                arrow.textContent = '▼';
+            } else {
+                dropdown.style.display = 'block';
+                arrow.textContent = '▲';
+            }
+        });
+    </script>
     <script src="../assets/js/add-product.js"></script>
 
 </body>

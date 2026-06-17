@@ -1,0 +1,156 @@
+.catalog-showcase-container {
+    max-width: 1300px;
+    margin: 60px auto;
+    padding: 0 20px;
+    background-color: var(--bg-dark);
+}
+
+.catalog-hero-header {
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+.catalog-hero-header h1 {
+    font-family: var(--font-heading);
+    font-size: 42px;
+    font-weight: 900;
+    color: var(--text-main);
+    letter-spacing: -1px;
+}
+
+.catalog-hero-header p {
+    color: var(--text-muted);
+    font-size: 16px;
+    margin-top: 10px;
+}
+
+.category-showcase-block {
+    margin-bottom: 80px;
+}
+
+.category-block-header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.category-block-header h2 {
+    font-family: var(--font-heading);
+    font-size: 22px;
+    font-weight: 900;
+    text-transform: uppercase;
+    color: var(--text-main);
+    white-space: nowrap;
+}
+
+.category-block-header .decorator-line {
+    flex-grow: 1;
+    height: 2px;
+    background: linear-gradient(90deg, var(--color-accent), transparent);
+}
+
+/* 4-5 Items per row architecture constraint setup layouts properties tracking metrics mapping fields definitions values */
+.customer-products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+    gap: 25px;
+    overflow: hidden;
+    transition: max-height 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.customer-products-grid.constrained-view {
+    max-height: 740px; /* Locks structure strictly to max 2 rows visibility parameters triggers */
+}
+
+.client-product-card {
+    background: var(--bg-card);
+    border-radius: 6px;
+    overflow: hidden;
+    border: 1px solid var(--border-color);
+    transition: var(--transition-smooth);
+}
+
+.client-product-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--color-accent);
+    box-shadow: 0 10px 20px rgba(255, 51, 75, 0.1);
+}
+
+.card-media-wrapper {
+    width: 100%;
+    height: 240px;
+    background: #11141a;
+}
+
+.card-media-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.card-details-wrapper {
+    padding: 20px;
+    text-align: center;
+}
+
+.card-details-wrapper h3 {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text-main);
+    margin-bottom: 8px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.card-details-wrapper .price-lbl {
+    font-size: 16px;
+    font-weight: 900;
+    color: var(--text-main);
+    margin-bottom: 15px;
+}
+
+.view-item-btn {
+    display: block;
+    background: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--text-muted);
+    padding: 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: var(--transition-smooth);
+}
+
+.view-item-btn:hover {
+    background: var(--color-accent);
+    color: #fff;
+    border-color: var(--color-accent);
+}
+
+.expansion-control-row {
+    display: flex;
+    justify-content: center;
+    margin-top: 35px;
+}
+
+.expand-toggle-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.expand-toggle-btn:hover {
+    color: var(--color-accent);
+}
