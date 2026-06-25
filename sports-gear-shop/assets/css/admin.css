@@ -1,6 +1,3 @@
-/* ==========================================================================
-   Custom Variable Framework (Premium Athletic Theme)
-   ========================================================================== */
 :root {
     --obsidian-black: #0B0C10;
     --card-bg: #1F2833;
@@ -13,9 +10,6 @@
     --input-border: rgba(255, 255, 255, 0.1);
 }
 
-/* ==========================================================================
-   Base Body Resets & Typography
-   ========================================================================== */
 * {
     margin: 0;
     padding: 0;
@@ -31,7 +25,6 @@ body {
     -moz-osx-font-smoothing: grayscale;
 }
 
-/* Custom Scrollbar for Main Content Content */
 ::-webkit-scrollbar {
     width: 8px;
 }
@@ -46,9 +39,6 @@ body {
     background: var(--neon-crimson);
 }
 
-/* ==========================================================================
-   Authentication Layout (Login & Registration Panels)
-   ========================================================================== */
 .admin-auth-body {
     background-color: var(--obsidian-black);
     color: var(--crisp-white);
@@ -153,16 +143,12 @@ body {
     transform: scale(0.98);
 }
 
-/* ==========================================================================
-   Admin Grid Dashboard Architecture
-   ========================================================================== */
 .admin-dashboard-layout {
     display: flex;
     min-height: 100vh;
     overflow-x: hidden;
 }
 
-/* Sidebar Component */
 .sidebar {
     width: 280px;
     background-color: var(--sidebar-bg);
@@ -189,7 +175,6 @@ body {
     flex-grow: 1;
 }
 
-/* Sidebar Links & Shared Interactive Buttons */
 .sidebar-menu a,
 .dropdown-btn {
     color: var(--muted-grey);
@@ -223,14 +208,13 @@ body {
     font-weight: 700;
 }
 
-/* Collapsible Sub-Navigation Engine */
 .sidebar-dropdown {
     display: flex;
     flex-direction: column;
 }
 
 .dropdown-container {
-    display: none; /* Controlled dynamically via JavaScript classes */
+    display: none;
     background-color: rgba(0, 0, 0, 0.2);
     border-radius: 4px;
     margin-top: 4px;
@@ -260,7 +244,6 @@ body {
     color: var(--muted-grey);
 }
 
-/* Sidebar Footer Integration Layout */
 .sidebar-footer {
     border-top: 1px solid rgba(255, 255, 255, 0.08);
     padding-top: 20px;
@@ -298,9 +281,6 @@ body {
     margin-top: 2px;
 }
 
-/* ==========================================================================
-   Main Canvas & Workspace Blocks
-   ========================================================================== */
 .main-content {
     flex: 1 1 auto;
     min-width: 0;
@@ -324,7 +304,6 @@ body {
     letter-spacing: -0.5px;
 }
 
-/* Analytics Metric Grid Layout */
 .analytics-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -365,7 +344,6 @@ body {
     margin-top: auto;
 }
 
-/* Custom Interactive Metric Card Micro-Glow Actions */
 .clickable-card {
     text-decoration: none;
     color: inherit;
@@ -396,7 +374,6 @@ body {
     box-shadow: 0 10px 25px rgba(255, 0, 85, 0.15);
 }
 
-/* Critical Stock Alert Pulsing System */
 .alert-triggered .metric-value {
     color: var(--neon-crimson);
     animation: pulse 2s infinite ease-in-out;
@@ -408,7 +385,6 @@ body {
     100% { opacity: 1; }
 }
 
-/* Data Content Panels */
 .data-card {
     background-color: var(--card-bg);
     padding: 30px;
@@ -430,12 +406,6 @@ body {
     font-size: 0.9rem;
     line-height: 1.6;
 }
-
-/* ==========================================================================
-   Dashboard Structure (index.php) — Sidebar Dropdown Navigation
-   These rules target the exact classes used by index.php's markup
-   (app-container / submenu / level-1-menu / level-2-menu, etc.)
-   ========================================================================== */
 
 .app-container {
     display: flex;
@@ -464,7 +434,6 @@ body {
     color: var(--neon-crimson);
 }
 
-/* Top-level menu list and items */
 .sidebar-menu {
     list-style: none;
 }
@@ -478,7 +447,6 @@ body {
     list-style: none;
 }
 
-/* Sub-dropdown trigger buttons (Manage Products / Categories / Access) */
 .dropdown-sub-btn {
     color: var(--muted-grey);
     background: transparent;
@@ -513,7 +481,6 @@ body {
     color: var(--neon-crimson);
 }
 
-/* Collapsible engine: hidden until JS toggles .open */
 .submenu {
     list-style: none;
     max-height: 0;
@@ -525,7 +492,6 @@ body {
     max-height: 600px;
 }
 
-/* Level 1 = Manage Products / Manage Categories / Management Access group */
 .level-1-menu {
     padding-left: 12px;
     margin-top: 2px;
@@ -537,7 +503,6 @@ body {
     padding-bottom: 4px;
 }
 
-/* Level 2 = the CRUD links (Add / View / Update / Remove) for each section */
 .level-2-menu {
     padding-left: 18px;
     margin: 2px 0 2px 4px;
@@ -559,7 +524,6 @@ body {
     color: var(--neon-cyan);
 }
 
-/* Sidebar footer / user profile (index.php uses .user-name + .logout-btn) */
 .user-profile {
     display: flex;
     align-items: center;
@@ -591,7 +555,6 @@ body {
     opacity: 0.8;
 }
 
-/* Main content header (index.php uses .main-header, not .content-header) */
 .main-header {
     margin-bottom: 35px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
@@ -610,7 +573,6 @@ body {
     margin-top: 6px;
 }
 
-/* Metric card grid (index.php uses .metrics-grid, not .analytics-grid) */
 .metrics-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));

@@ -50,7 +50,6 @@
     background: linear-gradient(90deg, var(--color-accent), transparent);
 }
 
-/* 4-5 Items per row architecture constraint setup layouts properties tracking metrics mapping fields definitions values */
 .customer-products-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
@@ -60,7 +59,7 @@
 }
 
 .customer-products-grid.constrained-view {
-    max-height: 740px; /* Locks structure strictly to max 2 rows visibility parameters triggers */
+    max-height: 740px;
 }
 
 .client-product-card {

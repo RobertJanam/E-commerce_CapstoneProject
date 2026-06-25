@@ -24,7 +24,6 @@ function handleFileSelection(event) {
     for (let file of selectedFiles) {
         if (fileQueue.length >= 3) break;
 
-        // Absolute structural constraint checking to block video processing arrays
         if (file.type.includes('video')) {
             alert("Validation Error: Video files are not allowed.");
             continue;

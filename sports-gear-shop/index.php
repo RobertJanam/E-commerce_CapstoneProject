@@ -168,6 +168,5 @@ include 'includes/navbar.php';
 </section>
 
 <?php
-// Static layout inclusion for the footer component
 include 'includes/footer.php';
 ?>

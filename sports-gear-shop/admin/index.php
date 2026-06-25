@@ -6,13 +6,11 @@ if (!isset($conn) && isset($connection)) {
     $conn = $connection;
 }
 
-// Authorization check - fallback to default or restrict
 $displayName = 'Admin Staff';
 if (isset($_SESSION['user_name']) && !empty($_SESSION['user_name'])) {
     $displayName = htmlspecialchars($_SESSION['user_name'], ENT_QUOTES, 'UTF-8');
 }
 
-// Fetch dynamic real-time production numbers
 $totalProducts = 0;
 
 if (isset($conn)) {
@@ -123,13 +121,13 @@ if (isset($conn)) {
         <section class="metrics-grid">
             <div class="metric-card crimson-glow">
                 <h3>Active Orders</h3>
-                <div class="metric-value">12</div>
+                <div class="metric-value">0</div>
                 <p class="metric-meta">Awaiting fulfillment processing</p>
             </div>
 
             <div class="metric-card gold-glow">
                 <h3>Total Revenue</h3>
-                <div class="metric-value">$14,250.00</div>
+                <div class="metric-value">KSh 0</div>
                 <p class="metric-meta">Gross checkout value this cycle</p>
             </div>
 
@@ -141,7 +139,7 @@ if (isset($conn)) {
 
             <div class="metric-card crimson-glow alert-triggered">
                 <h3>Stock Alerts</h3>
-                <div class="metric-value">3</div>
+                <div class="metric-value">0</div>
                 <p class="metric-meta">Items running critically below threshold</p>
             </div>
         </section>

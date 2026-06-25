@@ -6,7 +6,6 @@ $message = "";
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['purge_product'])) {
     $pId = (int)$_POST['product_id'];
 
-    // Retrieve storage image footprints paths loops to run server unlinking
     $res = mysqli_query($conn, "SELECT image1, image2, image3 FROM products WHERE id = $pId");
     if ($row = mysqli_fetch_assoc($res)) {
         foreach ([$row['image1'], $row['image2'], $row['image3']] as $path) {
@@ -16,9 +15,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['purge_product'])) {
         }
     }
 
-    // Execute safe dynamic structural relational drop sequence parameters triggers
     mysqli_query($conn, "DELETE FROM products WHERE id = $pId");
-    $message = "Product record completely dropped and local media tracks cleared.";
+    $message = "Product record removed permanently.";
 }
 
 $productsList = mysqli_query($conn, "SELECT id, name FROM products ORDER BY id ASC");
@@ -43,20 +41,20 @@ $productsList = mysqli_query($conn, "SELECT id, name FROM products ORDER BY id A
                 <span class="arrow-icon">←</span>
                 <div class="text-stack">
                     <span class="small-sub">back to dashboard</span>
-                    <span class="main-heading">Product Inventory Destruction Matrix</span>
+                    <span class="main-heading">DELETE PRODUCT</span>
                 </div>
             </a>
         </div>
 
         <form action="remove-product.php" method="POST" class="workspace-form">
             <div class="dangerous-destruction-box">
-                <h2>Product Removal Layer Verification</h2>
-                <p>This action removes the entry from the database and deletes all associated local assets. Sequential item rows will be dynamically re-indexed to prevent structural tracking pipeline gaps.</p>
+                <h2>REMOVE A PRODUCT</h2>
+                <p>This action removes the entry from the database and deletes all associated local assets.</p>
 
                 <div class="input-group-block">
-                    <label>Select Target Inventory Asset Track</label>
+                    <label>Select Product</label>
                     <select name="product_id" required>
-                        <option value="">-- Choose Inventory Target to Purge --</option>
+                        <option value="">Choose</option>
                         <?php while($p = mysqli_fetch_assoc($productsList)): ?>
                             <option value="<?php echo $p['id']; ?>">ID: <?php echo $p['id']; ?> - <?php echo htmlspecialchars($p['name']); ?></option>
                         <?php endwhile; ?>
@@ -64,7 +62,7 @@ $productsList = mysqli_query($conn, "SELECT id, name FROM products ORDER BY id A
                 </div>
 
                 <div class="destructive-actions-row">
-                    <button type="submit" name="purge_product" class="btn-danger-confirm">Execute Purge Sequence</button>
+                    <button type="submit" name="purge_product" class="btn-danger-confirm">DELETE</button>
                     <a href="../index.php" class="btn-cancel-action">Cancel</a>
                 </div>
             </div>

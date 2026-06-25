@@ -10,11 +10,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_product_changes'
     $catName = mysqli_real_escape_string($conn, $_POST['category_id']);
     $price = (float)$_POST['price'];
 
-    // Fetch original images parameters mapping to maintain array parity
     $orig = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM products WHERE id = $pId"));
     $imgPaths = [$orig['image1'], $orig['image2'], $orig['image3']];
 
-    // Handle new media overlays injections checks
     for($i = 1; $i <= 3; $i++) {
         if(isset($_FILES["img_$i"]) && $_FILES["img_$i"]['error'] === UPLOAD_ERR_OK) {
             if(!empty($imgPaths[$i-1]) && file_exists('../../' . $imgPaths[$i-1])) {
@@ -41,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_product_changes'
         WHERE id = $pId";
 
     if(mysqli_query($conn, $updateSql)) {
-        $message = "Product records updated and active folders synchronized.";
+        $message = "Product records updated";
     }
 }
 
@@ -102,7 +100,7 @@ $categories = mysqli_query($conn, "SELECT * FROM categories ORDER BY name ASC");
                     </div>
 
                     <button class="trigger-edit-overlay-btn" onclick="openGlobalModal(<?php echo htmlspecialchars(json_encode($p)); ?>)">
-                        Edit Asset
+                        Edit
                     </button>
                 </div>
             <?php endwhile; ?>
@@ -113,18 +111,18 @@ $categories = mysqli_query($conn, "SELECT * FROM categories ORDER BY name ASC");
         <div class="center-modal-box">
             <form action="update-product.php" method="POST" enctype="multipart/form-data">
                 <input type="hidden" name="product_id" id="modalProductId">
-                <h3>Edit Product Parameters</h3>
+                <h3>Update Product</h3>
 
                 <div class="input-group-block">
-                    <label>Product Title Name</label>
+                    <label>Product Name</label>
                     <input type="text" name="product_name" id="modalProductName" required>
                 </div>
                 <div class="input-group-block">
-                    <label>Product Scope Description</label>
+                    <label>Product Description</label>
                     <textarea name="product_description" id="modalProductDesc" rows="4" required></textarea>
                 </div>
                 <div class="input-group-block">
-                    <label>Relational System Category Placement</label>
+                    <label>Select Category</label>
                     <select name="category_id" id="modalProductCategory" required>
                         <?php
                         mysqli_data_seek($categories, 0);
@@ -134,14 +132,14 @@ $categories = mysqli_query($conn, "SELECT * FROM categories ORDER BY name ASC");
                     </select>
                 </div>
                 <div class="input-group-block">
-                    <label>Normalized Pricing (KSh.)</label>
+                    <label>Price</label>
                     <input type="number" name="price" id="modalProductPrice" step="0.01" required>
                 </div>
 
                 <div class="image-uploader-slots-row">
-                    <div><label>Layout Track 1</label><input type="file" name="img_1"></div>
-                    <div><label>Layout Track 2</label><input type="file" name="img_2"></div>
-                    <div><label>Layout Track 3</label><input type="file" name="img_3"></div>
+                    <div><label>Image 1</label><input type="file" name="img_1"></div>
+                    <div><label>Image 2</label><input type="file" name="img_2"></div>
+                    <div><label>Image 3</label><input type="file" name="img_3"></div>
                 </div>
 
                 <div class="modal-actions-wrapper">

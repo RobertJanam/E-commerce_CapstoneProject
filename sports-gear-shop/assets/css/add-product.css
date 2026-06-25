@@ -14,7 +14,6 @@ body {
     font-family: 'Montserrat', sans-serif;
 }
 
-/* Fixed Navigation Elements */
 .sidebar-dropdown { display: flex; flex-direction: column; }
 .dropdown-btn {
     background: none; border: none; color: #b0b3b8; padding: 12px 20px;
@@ -26,7 +25,6 @@ body {
 .dropdown-container a.active-sub { color: var(--neon-cyan) !important; font-weight: 700; }
 .disabled-link { opacity: 0.5; pointer-events: none; }
 
-/* Structural Page Content Layouts */
 .product-page-container {
     padding: 40px;
     width: 100%;
@@ -75,7 +73,6 @@ body {
     letter-spacing: -0.5px;
 }
 
-/* Form Columns Grid Configuration */
 .product-editor-grid {
     display: grid;
     grid-template-columns: 1.2fr 1fr;
@@ -133,7 +130,6 @@ body {
     border-color: var(--neon-cyan);
 }
 
-/* Image File Uploader Design Matrix */
 .image-uploader-flex-container {
     display: flex;
     gap: 15px;
@@ -190,7 +186,6 @@ body {
     object-fit: cover;
 }
 
-/* Hover Interaction Layers for Overlays */
 .thumbnail-action-overlay {
     position: absolute;
     top: 0; left: 0; width: 100%; height: 100%;
@@ -240,7 +235,6 @@ body {
     color: var(--crisp-white);
 }
 
-/* Layout Footer Control Mechanics */
 .form-actions-row {
     display: flex;
     justify-content: space-between;
@@ -289,7 +283,6 @@ body {
     transform: translateY(-2px);
 }
 
-/* Dynamic Flash Feedback Components */
 .flash-popup-notification {
     position: fixed;
     top: 25px;

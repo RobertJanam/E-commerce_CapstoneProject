@@ -3,7 +3,6 @@ session_start();
 require_once __DIR__ . '/../../config/db.php';
 
 $message = "";
-// Direct AJAX pipeline to fetch description dynamically at runtime
 if (isset($_GET['fetch_id'])) {
     $targetId = (int)$_GET['fetch_id'];
     $res = mysqli_query($conn, "SELECT description FROM categories WHERE id = $targetId");
@@ -18,7 +17,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_category'])) {
     $newName = mysqli_real_escape_string($conn, trim($_POST['new_category_name']));
     $newDesc = mysqli_real_escape_string($conn, trim($_POST['edit_description']));
 
-    // Fetch original name for structural directory migration pathing updates
     $origRes = mysqli_query($conn, "SELECT name FROM categories WHERE id = $catId");
     if ($origRow = mysqli_fetch_assoc($origRes)) {
         $oldName = $origRow['name'];
@@ -27,14 +25,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_category'])) {
         if (mysqli_query($conn, $updateQuery)) {
             $message = "Category structural properties updated successfully!";
 
-            // Rename physical directories cleanly in server root
             $oldDir = "../../uploads/" . strtolower(str_replace(' ', '_', $oldName));
             $newDir = "../../uploads/" . strtolower(str_replace(' ', '_', $newName));
             if (file_exists($oldDir) && !file_exists($newDir)) {
                 rename($oldDir, $newDir);
             }
 
-            // Sync structural image paths stored inside the modified rows mapping
             $oldDbPattern = "uploads/" . strtolower(str_replace(' ', '_', $oldName)) . "/";
             $newDbPattern = "uploads/" . strtolower(str_replace(' ', '_', $newName)) . "/";
 
