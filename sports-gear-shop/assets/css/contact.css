@@ -79,3 +79,16 @@ button:hover {
     font-size: 14px;
     font-weight: 600;
 }
+
+@media (max-width: 500px) {
+    body {
+        padding: 20px 15px;
+    }
+
+    .contact-card {
+        width: 100%;
+        max-width: 450px;
+        padding: 25px 20px;
+        box-sizing: border-box;
+    }
+}

@@ -2,17 +2,18 @@
 session_start();
 require_once __DIR__ . '/../../config/db.php';
 
+// Safe Relational Database Query Mapping
 $query = "SELECT p.id,
                 p.name AS product_name,
                 p.description AS product_description,
                 p.price,
-                p.category,
+                p.category_id,
                 p.image1 AS image_path_1,
                 p.image2 AS image_path_2,
                 p.image3 AS image_path_3,
                 c.name AS category_name
           FROM products p
-          LEFT JOIN categories c ON c.name = p.category
+          LEFT JOIN categories c ON c.id = p.category_id
           ORDER BY p.id ASC";
 $result = mysqli_query($conn, $query);
 ?>
@@ -38,22 +39,28 @@ $result = mysqli_query($conn, $query);
         </div>
 
         <div class="products-broad-grid">
-            <?php while($p = mysqli_fetch_assoc($result)):
-                $images = array_filter([$p['image_path_1'], $p['image_path_2'], $p['image_path_3']]);
-                $primaryImage = !empty($images) ? '../../' . reset($images) : '../../assets/images/UI/placeholder.png';
-            ?>
-                <div class="broad-product-card">
-                    <div class="media-preview-side">
-                        <img src="<?php echo $primaryImage; ?>" alt="Product Canvas Track">
+            <?php if(mysqli_num_rows($result) > 0): ?>
+                <?php while($p = mysqli_fetch_assoc($result)):
+                    // Filter array to pull valid image records
+                    $images = array_filter([$p['image_path_1'], $p['image_path_2'], $p['image_path_3']]);
+                    // Auto compensate missing images with unified UI pathing
+                    $primaryImage = !empty($images) ? '../../' . reset($images) : '../../assets/images/UI/placeholder.png';
+                ?>
+                    <div class="broad-product-card-view">
+                        <div class="media-preview-side">
+                            <img src="<?php echo htmlspecialchars($primaryImage); ?>" alt="Product Canvas Track">
+                        </div>
+                        <div class="details-content-side">
+                            <span class="badge-tag-category"><?php echo htmlspecialchars($p['category_name'] ?? 'Uncategorized'); ?></span>
+                            <h2><?php echo htmlspecialchars($p['product_name']); ?></h2>
+                            <p class="desc-para"><?php echo htmlspecialchars($p['product_description']); ?></p>
+                            <div class="financial-row">KSh. <?php echo number_format($p['price'], 2); ?></div>
+                        </div>
                     </div>
-                    <div class="details-content-side">
-                        <span class="badge-tag-category"><?php echo htmlspecialchars($p['category_name'] ?? 'Uncategorized'); ?></span>
-                        <h2><?php echo htmlspecialchars($p['product_name']); ?></h2>
-                        <p class="desc-para"><?php echo htmlspecialchars($p['product_description']); ?></p>
-                        <div class="financial-row">KSh. <?php echo number_format($p['price'], 2); ?></div>
-                    </div>
-                </div>
-            <?php endwhile; ?>
+                <?php endwhile; ?>
+            <?php else: ?>
+                <div style="text-align: center; color: var(--muted-gray); padding: 40px;">No deployed tracking products found inside database architecture.</div>
+            <?php endif; ?>
         </div>
     </main>
 </body>

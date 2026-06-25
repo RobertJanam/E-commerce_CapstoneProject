@@ -23,7 +23,7 @@
                 <span class="cart-badge">0</span>
             </a>
 
-            <a href="login.php" class="nav-icon-btn">
+            <a href="profile.php" class="nav-icon-btn">
                 <i class="fa-solid fa-user"></i>
             </a>
         </div>

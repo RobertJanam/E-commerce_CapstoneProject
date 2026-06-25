@@ -65,7 +65,7 @@ $categoriesList = mysqli_query($conn, "SELECT * FROM categories ORDER BY name AS
                 <span class="arrow-icon">←</span>
                 <div class="text-stack">
                     <span class="small-sub">back to dashboard</span>
-                    <span class="main-heading">Modify Category Properties</span>
+                    <span class="main-heading">Modify Category</span>
                 </div>
             </a>
         </div>
@@ -73,11 +73,11 @@ $categoriesList = mysqli_query($conn, "SELECT * FROM categories ORDER BY name AS
         <form action="update-category.php" method="POST" class="workspace-form">
             <div class="form-grid-layout">
                 <div class="form-section-box">
-                    <h3>Selection Layer</h3>
+                    <h3>Selection</h3>
                     <div class="input-group-block">
-                        <label>Target Active Category</label>
+                        <label>Category</label>
                         <select name="category_id" id="categorySelect" onchange="loadCategoryDescription(this.value)" required>
-                            <option value="">-- Choose Category Target Track --</option>
+                            <option value="">-- Choose --</option>
                             <?php while($c = mysqli_fetch_assoc($categoriesList)): ?>
                                 <option value="<?php echo $c['id']; ?>"><?php echo htmlspecialchars($c['name']); ?></option>
                             <?php endwhile; ?>
@@ -85,19 +85,19 @@ $categoriesList = mysqli_query($conn, "SELECT * FROM categories ORDER BY name AS
                     </div>
 
                     <div class="input-group-block">
-                        <label>New Assigned Category Name</label>
+                        <label>New Category Name</label>
                         <input type="text" name="new_category_name" id="newCategoryName" required>
                     </div>
 
                     <div class="input-group-block">
-                        <label>Edit Target Description</label>
+                        <label>Edit Description</label>
                         <textarea name="edit_description" id="editDescription" rows="6" required></textarea>
                     </div>
                 </div>
 
                 <div class="form-actions-sidebar">
                     <div class="sticky-action-box">
-                        <h3>Publish Manifest</h3>
+                        <h3>Verify</h3>
                         <button type="submit" name="update_category" class="btn-submit-action">Update Category</button>
                         <a href="../index.php" class="btn-discard-action">Discard Changes</a>
                     </div>

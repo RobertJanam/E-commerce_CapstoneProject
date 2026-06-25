@@ -14,8 +14,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_product'])) {
     $productName = mysqli_real_escape_string($conn, $_POST['product_name']);
     $productDesc = mysqli_real_escape_string($conn, $_POST['product_description']);
     $categoryId = (int)$_POST['category'];
-    $price = mysqli_real_escape_string($conn, $_POST['price']);
+    $price = floatval($_POST['price']);
 
+    // Fetch the correct category name to match folder structures
     $categoryResult = mysqli_query($conn, "SELECT name FROM categories WHERE id = $categoryId");
     $categoryName = 'uncategorized';
     if ($categoryResult && mysqli_num_rows($categoryResult) > 0) {
@@ -23,73 +24,60 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_product'])) {
         $categoryName = trim($categoryRow['name']);
     }
 
-    $categoryFolder = strtolower(preg_replace('/[^a-z0-9]+/', '_', $categoryName));
+    // Match exactly with add-category.php folder mapping
+    $categoryFolder = strtolower(str_replace(' ', '_', $categoryName));
     if ($categoryFolder === '') {
         $categoryFolder = 'uncategorized';
     }
 
-    $baseCategoryDir = '../uploads/' . $categoryFolder . '/';
-    $baseUploadDir = $baseCategoryDir;
+    // Relative directory mapping from the project root
+    $targetDirName = "uploads/" . $categoryFolder . "/";
+    $absoluteUploadDir = __DIR__ . '/../' . $targetDirName; // Resolves to root uploads/ directory
 
-    if (!is_dir($baseCategoryDir)) {
-        $baseUploadDir = '../uploads/';
+    // Fallback if directory was somehow wiped out
+    if (!is_dir($absoluteUploadDir)) {
+        if (!mkdir($absoluteUploadDir, 0777, true) && !is_dir($absoluteUploadDir)) {
+            $message = "Unable to create the upload folder for this category.";
+            $messageType = "error";
+        }
     }
 
-    $uploadedPaths = [null, null, null];
-    $uploadSuccess = true;
-    $errorMessage = "";
+    $uploadedPaths = ['image1' => '', 'image2' => '', 'image3' => ''];
 
-    if (isset($_FILES['product_images']) && !empty($_FILES['product_images']['name'][0])) {
-        $files = $_FILES['product_images'];
-        $totalFiles = count($files['name']);
+    if (empty($message) && isset($_FILES['product_images']) && is_array($_FILES['product_images']['name'])) {
+        $productFiles = $_FILES['product_images'];
+        $fileCount = count($productFiles['name']);
 
-        if ($totalFiles > 3) {
-            $uploadSuccess = false;
-            $errorMessage = "Maximum of 3 images are allowed.";
-        } else {
-            for ($i = 0; $i < $totalFiles; $i++) {
-                if ($files['error'][$i] === 0) {
-                    $fileName = time() . '_' . basename($files['name'][$i]);
-                    $targetFilePath = $baseUploadDir . $fileName;
-                    $fileType = pathinfo($targetFilePath, PATHINFO_EXTENSION);
+        for ($i = 0; $i < $fileCount && $i < 3; $i++) {
+            if ($productFiles['error'][$i] === UPLOAD_ERR_OK) {
+                $fileTmpPath = $productFiles['tmp_name'][$i];
+                $fileName = time() . '_' . $i . '_' . preg_replace('/[^a-zA-Z0-9\._\-]/', '', basename($productFiles['name'][$i]));
+                $destAbsolutePath = $absoluteUploadDir . $fileName;
 
-                    $allowTypes = array('jpg', 'png', 'jpeg', 'gif', 'webp');
-                    if (in_array(strtolower($fileType), $allowTypes)) {
-                        if (move_uploaded_file($files['tmp_name'][$i], $targetFilePath)) {
-                            $uploadedPaths[$i] = 'uploads/' . $categoryFolder . '/' . $fileName;
-                        } else {
-                            $uploadSuccess = false;
-                            $errorMessage = "Error uploading file: " . $files['name'][$i];
-                            break;
-                        }
-                    } else {
-                        $uploadSuccess = false;
-                        $errorMessage = "Invalid file format for: " . $files['name'][$i];
-                        break;
-                    }
+                if (move_uploaded_file($fileTmpPath, $destAbsolutePath)) {
+                    $fieldKey = 'image' . ($i + 1);
+                    $uploadedPaths[$fieldKey] = $targetDirName . $fileName;
                 }
             }
         }
     }
 
-    if ($uploadSuccess) {
-        $img1 = $uploadedPaths[0];
-        $img2 = $uploadedPaths[1];
-        $img3 = $uploadedPaths[2];
+    if (empty($message)) {
+        $img1 = mysqli_real_escape_string($conn, $uploadedPaths['image1']);
+        $img2 = mysqli_real_escape_string($conn, $uploadedPaths['image2']);
+        $img3 = mysqli_real_escape_string($conn, $uploadedPaths['image3']);
 
-        $insertQuery = "INSERT INTO products (name, description, category_id, price, image1, image2, image3)
-                        VALUES ('$productName', '$productDesc', $categoryId, '$price', '$img1', '$img2', '$img3')";
+        // Relational Database Insertion Layer
+        $insertQuery = "INSERT INTO products (name, description, price, category_id, image1, image2, image3)
+                        VALUES ('$productName', '$productDesc', '$price', '$categoryId', '$img1', '$img2', '$img3')";
 
         if (mysqli_query($conn, $insertQuery)) {
-            $message = "Product successfully added to the store.";
+            $message = "Product added successfully";
             $messageType = "success";
         } else {
             $message = "Database Error: " . mysqli_error($conn);
             $messageType = "error";
         }
-    } else {
-        $message = $errorMessage;
-        $messageType = "error";
     }
 }
 ?>

@@ -304,3 +304,27 @@ body {
     from { transform: translateX(120%); opacity: 0; }
     to { transform: translateX(0); opacity: 1; }
 }
+
+@media (max-width: 768px) {
+    .admin-workspace {
+        padding: 20px 15px;
+    }
+
+    .form-grid-layout,
+    .product-form-grid {
+        grid-template-columns: 1fr !important;
+        gap: 20px;
+    }
+
+    .form-actions-row {
+        flex-direction: column-reverse;
+        gap: 12px;
+    }
+
+    .btn-submit-action,
+    .btn-discard-action {
+        width: 100%;
+        text-align: center;
+        box-sizing: border-box;
+    }
+}

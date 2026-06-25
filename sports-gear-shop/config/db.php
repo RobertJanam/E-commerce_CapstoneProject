@@ -4,9 +4,12 @@ $user = "root";
 $password = "";
 $dbname = "sportsdb";
 
-$conn = mysqli_connect($host, $user, $password, $dbname);
+$conn = new mysqli($host, $user, $password, $dbname);
 
-if (!$conn) {
-    die("Database Connection Failed: " . mysqli_connect_error());
+if ($conn->connect_error) {
+    error_log("Database Connection Failed: " . $conn->connect_error);
+    $conn = null;
+} else {
+    $conn->set_charset("utf8mb4");
 }
 ?>

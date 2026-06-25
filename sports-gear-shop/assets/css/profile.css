@@ -1,0 +1,539 @@
+/* User Profile Component Stylesheet - Sports Gear Shop Theme */
+
+.profile-main-wrapper {
+    background-color: var(--bg-dark);
+    min-height: 82vh;
+    padding: 4rem 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.profile-container {
+    width: 100%;
+    max-width: 1150px;
+    margin: 0 auto;
+}
+
+.profile-back-nav {
+    margin-bottom: 2rem;
+}
+
+.profile-back-nav .back-link {
+    color: var(--text-muted);
+    font-family: var(--font-heading);
+    font-size: 0.95rem;
+    font-weight: 600;
+    transition: var(--transition-smooth);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.profile-back-nav .back-link:hover {
+    color: var(--color-accent);
+    transform: translateX(-4px);
+}
+
+/* Base Profile Layout Grid Map */
+.profile-grid {
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    gap: 2rem;
+}
+
+@media (max-width: 900px) {
+    .profile-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Sidebar Layout Card Configuration */
+.profile-sidebar-card {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 2.5rem 1.5rem;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-self: flex-start;
+}
+
+/* Profile Picture Area & Size Compensation Mechanics */
+.avatar-upload-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.25rem;
+    width: 100%;
+}
+
+.avatar-preview-box {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    border: 3px solid var(--color-accent);
+    background-color: var(--bg-dark);
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 0 15px rgba(255, 51, 75, 0.2);
+}
+
+/* Auto-compensation scales any high-res dimension without distortion */
+.user-avatar-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+}
+
+.avatar-initials-fallback {
+    font-family: var(--font-heading);
+    font-size: 3.5rem;
+    font-weight: 800;
+    color: var(--color-accent);
+}
+
+.upload-avatar-btn {
+    background-color: rgba(255, 51, 75, 0.08);
+    border: 1px solid var(--color-accent);
+    color: var(--text-main);
+    padding: 0.5rem 1.25rem;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: var(--transition-smooth);
+}
+
+.upload-avatar-btn:hover {
+    background-color: var(--color-accent);
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(255, 51, 75, 0.3);
+}
+
+.sidebar-user-meta {
+    margin-top: 1.5rem;
+}
+
+.sidebar-user-name {
+    font-family: var(--font-heading);
+    color: var(--text-main);
+    font-size: 1.35rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.user-badge-role {
+    display: inline-block;
+    background-color: var(--border-color);
+    color: var(--text-muted);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    padding: 0.35rem 0.85rem;
+    border-radius: 50px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Main Section Details Grid Panel Cards */
+.profile-content-area {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.profile-details-card {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 2.25rem;
+}
+
+.card-heading-box {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.card-heading {
+    font-family: var(--font-heading);
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--text-main);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.card-heading i {
+    color: var(--color-accent);
+}
+
+.action-edit-icon-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    font-size: 1.15rem;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+}
+
+.action-edit-icon-btn:hover {
+    color: var(--color-accent);
+    transform: scale(1.1);
+}
+
+.about-text-block p {
+    color: var(--text-muted);
+    font-size: 0.98rem;
+    line-height: 1.7;
+}
+
+.profile-textarea {
+    width: 100%;
+    background-color: var(--bg-dark);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    color: var(--text-main);
+    padding: 1rem;
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    resize: vertical;
+    outline: none;
+}
+
+.profile-textarea:focus {
+    border-color: var(--color-accent);
+}
+
+/* Form Action Buttons Layout */
+.form-action-row {
+    display: flex;
+    gap: 0.75rem;
+}
+
+.btn-save-sm {
+    background-color: var(--color-accent);
+    border: 1px solid var(--color-accent);
+    color: #ffffff;
+    padding: 0.45rem 1.25rem;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    cursor: pointer;
+}
+
+.btn-discard-sm {
+    background-color: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--text-muted);
+    padding: 0.45rem 1.25rem;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    cursor: pointer;
+}
+
+/* Form Contact Layout Design Map */
+.contact-info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+}
+
+@media (max-width: 768px) {
+    .contact-info-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.info-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.info-label {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    font-weight: 600;
+}
+
+.info-value-box {
+    display: flex;
+    align-items: center;
+    background-color: var(--bg-dark);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    gap: 0.75rem;
+    transition: var(--transition-smooth);
+}
+
+.info-value-box.focusable:focus-within {
+    border-color: var(--color-accent);
+    box-shadow: 0 0 8px rgba(255, 51, 75, 0.1);
+}
+
+.info-value-box.locked {
+    background-color: rgba(35, 41, 54, 0.3);
+    cursor: not-allowed;
+}
+
+.icon-field {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    width: 20px;
+    text-align: center;
+}
+
+.info-input {
+    background: transparent;
+    border: none;
+    outline: none;
+    color: var(--text-main);
+    width: 100%;
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+}
+
+.info-value-text {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+}
+
+/* Main Section Card Footers */
+.form-footer-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border-color);
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.btn-save-primary {
+    background-color: var(--color-accent);
+    border: 1px solid var(--color-accent);
+    color: #ffffff;
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 0.9rem;
+    padding: 0.85rem 1.75rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+}
+
+.btn-save-primary:hover {
+    background-color: var(--color-accent-hover);
+    box-shadow: 0 4px 15px rgba(255, 51, 75, 0.3);
+}
+
+.btn-security-secondary {
+    background: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--text-main);
+    font-family: var(--font-heading);
+    font-weight: 600;
+    font-size: 0.85rem;
+    padding: 0.85rem 1.5rem;
+    border-radius: 8px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: var(--transition-smooth);
+}
+
+.btn-security-secondary:hover {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+    background-color: rgba(255, 51, 75, 0.02);
+}
+
+/* Notification Feedback Elements */
+.profile-alert {
+    padding: 1rem 1.25rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-weight: 500;
+}
+
+.profile-alert.success {
+    background-color: rgba(16, 185, 129, 0.1);
+    border: 1px solid #10b981;
+    color: #10b981;
+}
+
+.profile-alert.error {
+    background-color: rgba(239, 68, 68, 0.1);
+    border: 1px solid #ef4444;
+    color: #ef4444;
+}
+
+/* Security Pop-Up Modal Structure Layers */
+.security-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(13, 15, 18, 0.85);
+    backdrop-filter: blur(5px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+.security-modal-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.security-modal-card {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    width: 100%;
+    max-width: 480px;
+    padding: 2rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    transform: translateY(-20px);
+    transition: transform 0.3s ease;
+}
+
+.security-modal-overlay.active .security-modal-card {
+    transform: translateY(0);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 0.75rem;
+    margin-bottom: 1.5rem;
+}
+
+.modal-header h3 {
+    font-family: var(--font-heading);
+    font-size: 1.15rem;
+    color: var(--text-main);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.modal-header h3 i {
+    color: var(--color-accent);
+}
+
+.modal-close-x {
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    font-size: 1.5rem;
+    cursor: pointer;
+    line-height: 1;
+}
+
+.modal-close-x:hover {
+    color: var(--color-accent);
+}
+
+.modal-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.modal-input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.modal-input-group label {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    font-weight: 600;
+}
+
+.modal-input-group input {
+    background-color: var(--bg-dark);
+    border: 1px solid var(--border-color);
+    color: var(--text-main);
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    outline: none;
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    transition: var(--transition-smooth);
+}
+
+.modal-input-group input:focus {
+    border-color: var(--color-accent);
+}
+
+.modal-actions-row {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 0.75rem;
+}
+
+.btn-modal-submit {
+    background-color: var(--color-accent);
+    border: 1px solid var(--color-accent);
+    color: #ffffff;
+    font-family: var(--font-heading);
+    font-weight: 700;
+    padding: 0.75rem 1.25rem;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    flex: 1;
+}
+
+.btn-modal-submit:hover {
+    background-color: var(--color-accent-hover);
+}
+
+.btn-modal-cancel {
+    background-color: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--text-muted);
+    font-family: var(--font-heading);
+    font-weight: 600;
+    padding: 0.75rem 1.25rem;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    cursor: pointer;
+}
+
+.btn-modal-cancel:hover {
+    background-color: rgba(255, 255, 255, 0.02);
+    color: var(--text-main);
+}

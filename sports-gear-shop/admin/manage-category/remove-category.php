@@ -37,20 +37,19 @@ $categoriesList = mysqli_query($conn, "SELECT * FROM categories ORDER BY name AS
                 <span class="arrow-icon">←</span>
                 <div class="text-stack">
                     <span class="small-sub">back to dashboard</span>
-                    <span class="main-heading">Remove System Category</span>
+                    <span class="main-heading">Remove Category</span>
                 </div>
             </a>
         </div>
 
         <form action="remove-category.php" method="POST" class="workspace-form">
             <div class="dangerous-destruction-box">
-                <h2>Security Alert Layer</h2>
-                <p>Removing a structural category breaks schema relational mappings. Under your ruleset limits, directory path chains will not be destroyed on the local drive.</p>
+                <h2>Security</h2>
 
                 <div class="input-group-block custom-input-theme">
                     <label>Select Category to Delete</label>
                     <select name="category_id" required>
-                        <option value="">-- Choose Destructive Selection Target --</option>
+                        <option value="">-- Choose --</option>
                         <?php while($row = mysqli_fetch_assoc($categoriesList)): ?>
                             <option value="<?php echo $row['id']; ?>"><?php echo htmlspecialchars($row['name']); ?></option>
                         <?php endwhile; ?>
@@ -58,8 +57,8 @@ $categoriesList = mysqli_query($conn, "SELECT * FROM categories ORDER BY name AS
                 </div>
 
                 <div class="destructive-actions-row">
-                    <button type="submit" name="delete_category" class="btn-danger-confirm">Confirm Destructive Purge</button>
-                    <a href="../index.php" class="btn-cancel-action">Cancel Operation</a>
+                    <button type="submit" name="delete_category" class="btn-danger-confirm">Confirm</button>
+                    <a href="../index.php" class="btn-cancel-action">Cancel</a>
                 </div>
             </div>
         </form>

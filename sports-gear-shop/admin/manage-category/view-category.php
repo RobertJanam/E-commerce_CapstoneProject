@@ -24,7 +24,7 @@ $result = mysqli_query($conn, $query);
                 <span class="arrow-icon">←</span>
                 <div class="text-stack">
                     <span class="small-sub">back to dashboard</span>
-                    <span class="main-heading">System Categories Overview</span>
+                    <span class="main-heading">Categories Overview</span>
                 </div>
             </a>
         </div>
@@ -43,7 +43,7 @@ $result = mysqli_query($conn, $query);
                     </div>
                 <?php endwhile; ?>
             <?php else: ?>
-                <div class="empty-state-box">No categorical metrics configured inside database store yet.</div>
+                <div class="empty-state-box">No categories added yet.</div>
             <?php endif; ?>
         </div>
     </main>

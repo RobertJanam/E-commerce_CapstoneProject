@@ -150,3 +150,21 @@
 .btn-discard-action:hover {
     color: var(--neon-crimson);
 }
+
+@media (max-width: 768px) {
+    .admin-workspace {
+        padding: 20px 15px;
+    }
+
+    .form-grid-layout {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .form-actions-sidebar .sticky-action-box {
+        position: static;
+        box-shadow: none;
+        padding: 20px 0 0 0;
+        background: none;
+    }
+}

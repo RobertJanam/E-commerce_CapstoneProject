@@ -77,3 +77,16 @@ button:hover {
     color: #F01158;
     box-shadow: 0 0 5px rgb(185, 1, 68);
 }
+
+@media (max-width: 480px) {
+    body {
+        padding: 15px;
+    }
+
+    .register-card {
+        width: 100%;
+        max-width: 380px;
+        padding: 25px 20px;
+        box-sizing: border-box;
+    }
+}

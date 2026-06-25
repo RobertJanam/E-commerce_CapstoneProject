@@ -511,31 +511,16 @@ ul {
     font-size: 0.8rem;
 }
 
-@media (max-width: 968px) {
-    .footer-container {
-        grid-template-columns: 1fr 1fr;
-        gap: 2.5rem;
-    }
-    .hero-content h1 {
-        font-size: 2.8rem;
-    }
-    .nav-menu {
-        display: none;
-    }
-}
-
-@media (max-width: 576px) {
-    .footer-container {
+@media (max-width: 768px) {
+    footer .footer-grid,
+    footer [style*="grid-template-columns"],
+    .footer-brand {
         grid-template-columns: 1fr;
+        gap: 2rem;
+        margin-bottom: 2rem;
     }
-    .hero-section {
-        padding: 0 1.5rem;
-    }
-    .hero-content h1 {
-        font-size: 2.2rem;
-    }
-    .hero-cta {
-        flex-direction: column;
-        gap: 1rem;
+
+    .section-header h2 {
+        font-size: 1.75rem;
     }
 }

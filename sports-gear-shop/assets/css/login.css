@@ -80,3 +80,16 @@ button:hover {
 .switch-link a:hover {
     color: #F01158;
 }
+
+@media (max-width: 480px) {
+    body {
+        padding: 15px;
+    }
+
+    .login-card {
+        width: 100%;
+        max-width: 380px;
+        padding: 25px 20px;
+        box-sizing: border-box;
+    }
+}

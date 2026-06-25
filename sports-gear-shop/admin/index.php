@@ -146,8 +146,8 @@ if (isset($conn)) {
 
         <section class="dashboard-details">
             <div class="data-card">
-                <h2>Recent Inventory Activity</h2>
-                <p class="placeholder-text">Database dynamic extraction logs will populate here once CRUD functionalities kick off.</p>
+                <h2>Recent Activity</h2>
+                <p class="placeholder-text">Database logs.</p>
             </div>
         </section>
     </main>

@@ -584,3 +584,28 @@ body {
     display: grid;
     gap: 20px;
 }
+
+@media (max-width: 768px) {
+    .admin-main-layout {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+        padding: 20px 15px;
+    }
+
+    .dashboard-metrics-grid,
+    .summary-cards-row {
+        grid-template-columns: 1fr !important;
+        gap: 15px;
+    }
+
+    .user-profile {
+        margin-top: 15px;
+        padding-top: 15px;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+}
