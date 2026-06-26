@@ -80,6 +80,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_product'])) {
         }
     }
 }
+
+$adminUser = isset($_SESSION['user_name']) ? $_SESSION['user_name'] : 'Admin Staff';
+$logAction = "added";
+$itemType = "product";
+$targetName = isset($productName) ? $productName : '';
+
+if (!empty($message) && $messageType === 'success') {
+    log_admin_activity($conn, $logAction, $itemType, $targetName, $adminUser);
+}
 ?>
 
 <!DOCTYPE html>

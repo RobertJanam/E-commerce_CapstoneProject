@@ -585,6 +585,111 @@ body {
     gap: 20px;
 }
 
+/* Recent Activity Dynamic Feed Styling */
+.activity-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.activity-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 18px;
+    background: rgba(255, 255, 255, 0.02);
+    border-left: 4px solid var(--muted-grey);
+    border-radius: 4px;
+    transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.activity-item:hover {
+    background: rgba(255, 255, 255, 0.04);
+    transform: translateX(4px);
+}
+
+.activity-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.activity-badge {
+    font-size: 0.65rem;
+    font-weight: 700;
+    padding: 4px 8px;
+    border-radius: 3px;
+    letter-spacing: 0.5px;
+    text-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+}
+
+/* Neon & Accent Palette Alignments */
+.badge-added {
+    background: rgba(0, 255, 127, 0.1);
+    color: #00FF7F;
+    border: 1px solid rgba(0, 255, 127, 0.2);
+}
+.activity-added { border-left-color: #00FF7F; }
+
+.badge-updated {
+    background: rgba(255, 215, 0, 0.1);
+    color: var(--gold-accent);
+    border: 1px solid rgba(255, 215, 0, 0.2);
+}
+.activity-updated { border-left-color: var(--gold-accent); }
+
+.badge-removed {
+    background: rgba(255, 0, 85, 0.1);
+    color: var(--neon-crimson);
+    border: 1px solid rgba(255, 0, 85, 0.2);
+}
+.activity-removed { border-left-color: var(--neon-crimson); }
+
+.activity-text {
+    font-size: 0.85rem;
+    color: var(--crisp-white);
+}
+
+.activity-text strong {
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    color: var(--muted-grey);
+    letter-spacing: 0.5px;
+}
+
+.activity-meta {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 2px;
+}
+
+.activity-user {
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--muted-grey);
+}
+
+.activity-time {
+    font-size: 0.7rem;
+    color: rgba(197, 198, 199, 0.5);
+}
+
+/* Framework Mobile Responsiveness Layer */
+@media (max-width: 768px) {
+    .activity-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    .activity-meta {
+        align-items: flex-start;
+        margin-left: 0;
+        padding-left: 0;
+    }
+}
+
 @media (max-width: 768px) {
     .admin-main-layout {
         flex-direction: column;

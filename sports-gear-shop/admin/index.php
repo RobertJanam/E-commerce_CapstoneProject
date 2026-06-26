@@ -25,6 +25,23 @@ if (isset($conn)) {
         }
     }
 }
+
+// Fetch dynamic database logs for recent activities
+$activities = [];
+if (isset($conn)) {
+    ensure_activity_log_table($conn);
+
+    $tableCheck = mysqli_query($conn, "SHOW TABLES LIKE 'activity_log'");
+    if ($tableCheck && mysqli_num_rows($tableCheck) > 0) {
+        $activityQuery = "SELECT * FROM activity_log ORDER BY timestamp DESC LIMIT 5";
+        $activityResult = mysqli_query($conn, $activityQuery);
+        if ($activityResult) {
+            while ($row = mysqli_fetch_assoc($activityResult)) {
+                $activities[] = $row;
+            }
+        }
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -147,7 +164,31 @@ if (isset($conn)) {
         <section class="dashboard-details">
             <div class="data-card">
                 <h2>Recent Activity</h2>
-                <p class="placeholder-text">Database logs.</p>
+                <?php if (!empty($activities)): ?>
+                    <div class="activity-list">
+                        <?php foreach ($activities as $activity):
+                            $action = strtolower($activity['action_type']);
+                        ?>
+                            <div class="activity-item activity-<?php echo $action; ?>">
+                                <div class="activity-info">
+                                    <span class="activity-badge badge-<?php echo $action; ?>">
+                                        <?php echo strtoupper($activity['action_type']); ?>
+                                    </span>
+                                    <p class="activity-text">
+                                        <strong><?php echo htmlspecialchars($activity['item_type'], ENT_QUOTES, 'UTF-8'); ?>:</strong>
+                                        <?php echo htmlspecialchars($activity['item_name'], ENT_QUOTES, 'UTF-8'); ?>
+                                    </p>
+                                </div>
+                                <div class="activity-meta">
+                                    <span class="activity-user">by <?php echo htmlspecialchars($activity['performed_by'], ENT_QUOTES, 'UTF-8'); ?></span>
+                                    <span class="activity-time"><?php echo date('M d, g:i A', strtotime($activity['timestamp'])); ?></span>
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
+                <?php else: ?>
+                    <p class="placeholder-text">No recent database actions registered.</p>
+                <?php endif; ?>
             </div>
         </section>
     </main>

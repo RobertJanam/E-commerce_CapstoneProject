@@ -16,6 +16,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_category'])) {
     }
 }
 $categoriesList = mysqli_query($conn, "SELECT * FROM categories ORDER BY name ASC");
+
+// 1. Fetch item name context prior to running structural deletion
+$targetName = "Unknown Item";
+$fetchName = mysqli_query($conn, "SELECT name FROM categories WHERE id = " . (int)$categoryId); // Use 'categories' table in remove-category.php
+if ($fetchName && $row = mysqli_fetch_assoc($fetchName)) {
+    $targetName = $row['name'];
+}
+
+// 2. Perform your standard database row removal statement
+// if(mysqli_query($conn, "DELETE FROM products WHERE id = ...")) {
+
+// 3. Post this trace log immediately inside the successful block bracket
+$adminUser = isset($_SESSION['user_name']) ? $_SESSION['user_name'] : 'Admin Staff';
+if (!empty($message) && strpos($message, 'completed successfully') !== false) {
+    log_admin_activity($conn, 'removed', 'category', $targetName, $adminUser);
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">

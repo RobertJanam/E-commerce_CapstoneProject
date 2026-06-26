@@ -44,6 +44,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_category'])) {
 }
 
 $categoriesList = mysqli_query($conn, "SELECT * FROM categories ORDER BY name ASC");
+
+$adminUser = isset($_SESSION['user_name']) ? $_SESSION['user_name'] : 'Admin Staff';
+$logAction = "updated";
+$itemType = "category";
+$targetName = isset($newName) ? $newName : '';
+
+if (!empty($message) && strpos($message, 'updated successfully') !== false) {
+    log_admin_activity($conn, $logAction, $itemType, $targetName, $adminUser);
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">

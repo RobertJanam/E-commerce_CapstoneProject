@@ -21,6 +21,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_category'])) {
         }
     }
 }
+
+$adminUser = isset($_SESSION['user_name']) ? $_SESSION['user_name'] : 'Admin Staff';
+$logAction = "added";
+$itemType = "category";
+$targetName = isset($catName) ? $catName : '';
+
+if (!empty($message) && strpos($message, 'added successfully') !== false) {
+    log_admin_activity($conn, $logAction, $itemType, $targetName, $adminUser);
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">

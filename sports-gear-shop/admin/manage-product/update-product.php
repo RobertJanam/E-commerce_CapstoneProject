@@ -45,6 +45,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_product_changes'
 
 $products = mysqli_query($conn, "SELECT p.*, p.name AS product_name, p.description AS product_description, p.image1, p.image2, p.image3, c.name AS category_name FROM products p LEFT JOIN categories c ON c.name = p.category");
 $categories = mysqli_query($conn, "SELECT * FROM categories ORDER BY name ASC");
+
+$adminUser = isset($_SESSION['user_name']) ? $_SESSION['user_name'] : 'Admin Staff';
+$logAction = "updated";
+$itemType = "product";
+$targetName = isset($pName) ? $pName : '';
+
+if (!empty($message) && strpos($message, 'updated') !== false) {
+    log_admin_activity($conn, $logAction, $itemType, $targetName, $adminUser);
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
